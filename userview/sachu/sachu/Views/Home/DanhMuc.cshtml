@@ -1,0 +1,6 @@
+﻿@model IEnumerable<sachu.Models.DanhMuc>
+
+@foreach (var item in Model)
+{
+    <a href="@Url.Action("XemSPTDM","Home",new {madm= item.MaDM })" class="nav-item nav-link">@item.TenDM</a>
+}
