@@ -49,19 +49,21 @@ namespace sachu.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = db.KhachHangs.Where(m => m.Email.Equals(email) &&
-                m.MatKhau.Equals(matkhau)).ToList();
-                if (user.Count > 0)
+                KhachHang user = db.KhachHangs.SingleOrDefault(m => m.Email.Equals(email) &&
+                m.MatKhau.Equals(matkhau));
+                if (user != null)
                 {
-                    Session["Hoten"] = user.SingleOrDefault().HoTen;
-                    Session["Emial"] = user.SingleOrDefault().Email;
-                    Session["IdUser"] = user.SingleOrDefault().MaKH;
+                    Session["Hoten"] = user.HoTen;
+                    Session["Emial"] = user.Email;
+                    Session["IdUser"] = user.MaKH;
+                    Session["taikhoan"] = user;
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
                     ViewBag.error = "Sai tên đăng nhập hoặc mật khẩu";
                 }
+                 
             }
 
             return View();

@@ -88,6 +88,11 @@ namespace sachu.Controllers
         }
         public ActionResult XemGioHang()
         {
+            //kiểm tra người dùng đăng nhập chưa nếu chưa bắt đăng nhập
+            if (Session["Hoten"] == null)
+            {
+                return RedirectToAction("Login", "Access");
+            }
             
             List<GioHang> dsmua = LayGioHang();
             return View(dsmua);
@@ -111,6 +116,31 @@ namespace sachu.Controllers
                 tongtien = dsmua.Sum(n => n.ThanhTien);
             }
             return tongtien;
+        }
+        public ActionResult DatHang()
+        {
+            DonHang dh = new DonHang();
+            List<GioHang> gh = LayGioHang();
+            KhachHang kh = (KhachHang)Session["taikhoan"];
+            dh.MaKH = kh.MaKH;
+            dh.NgayDat = DateTime.Now;
+            //thêm đon hàng vào db
+            db.DonHangs.Add(dh);
+            db.SaveChanges();
+            //thêm chi tiêt don hang
+            foreach(var item in gh)
+            {
+                ChiTietDonHang ctdh = new ChiTietDonHang();
+                ctdh.MaDH = dh.MaDH;
+                ctdh.MaSach = item.GMaSach;
+                ctdh.SoLuong = item.GSoLuong;
+                ctdh.DonGia = decimal.Parse(item.GDonGia.ToString());
+                db.ChiTietDonHangs.Add(ctdh);
+            }
+            db.SaveChanges();
+            
+            return RedirectToAction("Index","Home");
+
         }
     }
 }
