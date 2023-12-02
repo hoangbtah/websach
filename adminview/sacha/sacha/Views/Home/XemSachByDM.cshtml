@@ -1,0 +1,92 @@
+﻿@model IEnumerable<sacha.Models.Sach>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Xem sản phẩm theo danh muc</h2>
+@using (Html.BeginForm("Index","Saches"))
+{
+    <p>
+        Tìm sách theo tên : @Html.TextBox("searchstring")
+        <input value="Tìm" type="submit" />
+    </p>
+}
+@using (Html.BeginForm("Index","Saches"))
+{
+    <p>
+        Tìm sách theo giá tiền :Khoảng đầu: @Html.TextBox("khoangdau") :Khoảng cuối: @Html.TextBox("khoangcuoi")
+        <input value="Tìm kiếm" type="submit" />
+    </p>
+}
+<p>
+    @Html.ActionLink("Thêm mới", "Create","Saches")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tên danh mục
+        </th>
+        <th>
+            Tên nhà xuất bản
+        </th>
+        <th>
+            Tên sách
+        </th>
+        <th>
+            Giá bán
+        </th>
+        <th>
+            Mô tả
+        </th>
+        <th>
+            Ảnh bìa
+        </th>
+        <th>
+            Ngày cập nhật
+        </th>
+        <th>
+            Số lượng tồn
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DanhMuc.TenDM)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NhaXuatBan.TenNXB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenSach)
+            </td>
+            <td>
+
+                @String.Format("{0:0,0}", item.GiaBan) VNĐ
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MoTa)
+            </td>
+            <td>
+                <img src="@Url.Content("~/assets/img/"+item.AnhBia)" width="100" class="img-thumbnail" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayCapNhat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuongTon)
+            </td>
+            <td>
+                @Html.ActionLink("Sửa", "Edit","Saches", new { id = item.MaSach }) |
+                @Html.ActionLink("Chi tiết","Saches", "Details", new { id = item.MaSach }) |
+                @Html.ActionLink("Xóa", "Delete","Saches", new { id = item.MaSach })
+            </td>
+        </tr>
+    }
+
+</table>
