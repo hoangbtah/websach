@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using sacha.Models;
 using System.IO;
+using PagedList;
 
 namespace sacha.Controllers
 {
@@ -16,9 +17,31 @@ namespace sacha.Controllers
         private SachDB db = new SachDB();
 
         // GET: Saches
-        public ActionResult Index(string searchstring,string khoangdau,string khoangcuoi)
+        public ActionResult Index(string searchstring,string khoangdau,string khoangcuoi, string currentFilter,string ckd,string ckc, int? page)
         {
+            if (searchstring != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchstring = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchstring;
+
+            if (khoangdau!=null && khoangcuoi != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                khoangdau = ckd;
+                khoangcuoi = ckc;
+            }
+            ViewBag.ckd = khoangdau;
+            ViewBag.ckc = khoangcuoi;
             var saches = db.Saches.Include(s => s.DanhMuc).Include(s => s.NhaXuatBan);
+            
             if(!String.IsNullOrEmpty(searchstring))
             {
                 saches = db.Saches.Where(s => s.TenSach.Contains(searchstring));
@@ -30,7 +53,10 @@ namespace sacha.Controllers
                 saches = db.Saches.Where(s => s.GiaBan >= kd && s.GiaBan <= kc);
 
             }
-            return View(saches.ToList());
+            saches = saches.OrderBy(m => m.MaSach);
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            return View(saches.ToPagedList(pageNumber,pageSize));
         }
 
         // GET: Saches/Details/5

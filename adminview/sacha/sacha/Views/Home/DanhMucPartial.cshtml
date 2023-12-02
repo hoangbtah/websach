@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<sacha.Models.DanhMuc>
 @foreach (var item in Model)
 {
-    <li><a href="@Url.Action("XemSachByDM","Home",new {madm= item.MaDM })">@item.TenDM</a></li>
+    var url = "/sach/sachbyca/" + item.MaDM;
+    <li><a href="@url">@item.TenDM</a></li>
 }

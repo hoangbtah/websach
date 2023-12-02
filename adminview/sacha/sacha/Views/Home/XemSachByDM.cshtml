@@ -1,4 +1,6 @@
-﻿@model IEnumerable<sacha.Models.Sach>
+﻿@model PagedList.IPagedList<sacha.Models.Sach>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css"/>
 
 @{
     ViewBag.Title = "Index";
@@ -6,7 +8,7 @@
 }
 
 <h2>Xem sản phẩm theo danh muc</h2>
-@using (Html.BeginForm("Index","Saches"))
+@*@using (Html.BeginForm("Index","Saches"))
 {
     <p>
         Tìm sách theo tên : @Html.TextBox("searchstring")
@@ -19,7 +21,7 @@
         Tìm sách theo giá tiền :Khoảng đầu: @Html.TextBox("khoangdau") :Khoảng cuối: @Html.TextBox("khoangcuoi")
         <input value="Tìm kiếm" type="submit" />
     </p>
-}
+}*@
 <p>
     @Html.ActionLink("Thêm mới", "Create","Saches")
 </p>
@@ -90,3 +92,6 @@
     }
 
 </table>
+<br />
+Trang @(Model.PageCount<Model.PageNumber ? 0 : Model.PageNumber)/ @Model.PageCount
+@Html.PagedListPager(Model,page => Url.Action("XemSachByDM",new {page}))

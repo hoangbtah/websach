@@ -1,4 +1,6 @@
-﻿@model IEnumerable<sacha.Models.Sach>
+﻿@model PagedList.IPagedList<sacha.Models.Sach>
+    @using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css"/>
 
 @{
     ViewBag.Title = "Index";
@@ -9,16 +11,17 @@
 @using (Html.BeginForm())
 {
     <p>
-        Tìm sách theo tên : @Html.TextBox("searchstring")
+        Tìm sách theo tên : @Html.TextBox("searchstring",ViewBag.CurrentFilter as string )
         <input value="Tìm" type="submit" />
     </p>
 }
 @using (Html.BeginForm())
 {
-<p>
-    Tìm sách theo giá tiền :Khoảng đầu: @Html.TextBox("khoangdau") :Khoảng cuối: @Html.TextBox("khoangcuoi")
-    <input value="Tìm kiếm" type="submit" />
-</p>
+    <p>
+        Tìm sách theo giá tiền :Khoảng đầu: @Html.TextBox("khoangdau",ViewBag.ckd as string) 
+        :Khoảng cuối: @Html.TextBox("khoangcuoi",ViewBag.ckc as string)
+        <input value="Tìm kiếm" type="submit" />
+    </p>
 }
 <p>
     @Html.ActionLink("Thêm mới", "Create")
@@ -90,3 +93,6 @@
     }
 
 </table>
+Trang @(Model.PageCount<Model.PageNumber ? 0 : Model.PageNumber)/ @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", 
+    new { page, currentFilter = ViewBag.CurrentFilter, ckd= ViewBag.ckd,ckc= ViewBag.ckc }))

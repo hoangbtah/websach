@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using sacha.Models;
+using PagedList;
 
 namespace sacha.Controllers
 {
@@ -20,11 +21,15 @@ namespace sacha.Controllers
             return PartialView(danhmuc);
 
         }
-        public ActionResult XemSachByDM(int madm)
+        [Route("sach/sachbyca/{madm}")]
+        public ActionResult XemSachByDM(int madm,int? page)
         {
-            //var saches = db.Saches.Include(s => s.DanhMuc).Include(s => s.NhaXuatBan);
-            var sach = db.Saches.Where(m => m.MaDM == madm);
-            return View(sach.ToList());
+            
+          
+            var sach = db.Saches.OrderBy(m=>m.MaDM).Where(m => m.MaDM == madm);
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            return View(sach.ToPagedList(pageNumber,pageSize));
         }
 
 

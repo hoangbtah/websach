@@ -81,3 +81,7 @@ E:\laptrinh_asp\websach\adminview\sacha\sacha\obj\Debug\sacha.csproj.CoreCompile
 E:\laptrinh_asp\websach\adminview\sacha\sacha\obj\Debug\sacha.csproj.CopyComplete
 E:\laptrinh_asp\websach\adminview\sacha\sacha\obj\Debug\sacha.dll
 E:\laptrinh_asp\websach\adminview\sacha\sacha\obj\Debug\sacha.pdb
+E:\laptrinh_asp\websach\adminview\sacha\sacha\bin\PagedList.dll
+E:\laptrinh_asp\websach\adminview\sacha\sacha\bin\PagedList.Mvc.dll
+E:\laptrinh_asp\websach\adminview\sacha\sacha\bin\PagedList.xml
+E:\laptrinh_asp\websach\adminview\sacha\sacha\bin\PagedList.Mvc.xml
